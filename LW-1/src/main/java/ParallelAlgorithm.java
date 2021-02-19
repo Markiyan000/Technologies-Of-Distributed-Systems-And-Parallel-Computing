@@ -19,21 +19,19 @@ public class ParallelAlgorithm implements SearchAlgorithm {
         final int length = numbers.length;
         ExecutorService executorService = Executors.newFixedThreadPool(COUNT_OF_THREADS);
         int mostFrequent = 0, countMostFrequent = 0;
-        int []alreadyChecked = new int[length];
-        int k = 0;
+        List<Integer> alreadyChecked = new ArrayList<>();
 
         int block = length / COUNT_OF_THREADS;
         int endCount = block - 1;
 
         for (int i = 0; i < length; i++) {
-            if(i == length / 2) block--;
             int begin = i;
             int end = endCount;
             int currentElement = numbers[i];
-            if(isElementAlreadyChecked(currentElement, alreadyChecked)) {
+            if (isElementAlreadyChecked(currentElement, alreadyChecked)) {
                 continue;
             }
-            alreadyChecked[k++] = currentElement;
+            alreadyChecked.add(currentElement);
             List<Future<Integer>> results = new ArrayList<>();
 
             for (int j = 0; j < COUNT_OF_THREADS; j++) {
@@ -75,8 +73,8 @@ public class ParallelAlgorithm implements SearchAlgorithm {
         return count;
     }
 
-    private boolean isElementAlreadyChecked(int element, int []alreadyChecked) {
-        return Arrays.stream(alreadyChecked).anyMatch(i -> i == element);
+    private boolean isElementAlreadyChecked(int element, List<Integer> alreadyChecked) {
+        return alreadyChecked.parallelStream().anyMatch(i -> i.equals(element));
     }
 
     private class SearchTask implements Callable<Integer> {

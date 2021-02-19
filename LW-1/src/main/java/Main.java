@@ -3,7 +3,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        final int LENGTH = 1000000;
+        final int LENGTH = 2000000;
         int []numbers = new int[LENGTH];
         Random random = new Random();
 

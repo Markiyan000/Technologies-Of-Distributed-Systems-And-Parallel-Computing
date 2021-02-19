@@ -1,26 +1,27 @@
+package algorithm;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SequentialAlgorithm implements SearchAlgorithm {
-    private int[] numbers;
+    private List<Integer> numbers;
 
-    public SequentialAlgorithm(int[] numbers) {
+    public SequentialAlgorithm(List<Integer> numbers) {
         this.numbers = numbers;
     }
 
     public int searchTheMostFrequentNumber() {
-        if (numbers == null || numbers.length == 0) {
-            throw new RuntimeException("Cannot execute search! Array is empty!");
+        if (numbers == null || numbers.size() == 0) {
+            throw new RuntimeException("Cannot execute search! List is empty!");
         }
 
-        int length = numbers.length;
+        int length = numbers.size();
         List<Integer> alreadyChecked = new ArrayList<>();
         int k = 0;
-        int mostFrequent = numbers[0], countMostFrequent = 1;
+        int mostFrequent = numbers.get(0), countMostFrequent = 1;
 
         for (int i = 0; i < length; i++) {
-            int currentElement = numbers[i];
+            int currentElement = numbers.get(i);
             int countCurrent = 1;
 
             if (isElementAlreadyChecked(currentElement, alreadyChecked)) {
@@ -30,7 +31,7 @@ public class SequentialAlgorithm implements SearchAlgorithm {
             alreadyChecked.add(currentElement);
 
             for (int j = i + 1; j < length; j++) {
-                if (currentElement == numbers[j]) {
+                if (currentElement == numbers.get(j)) {
                     countCurrent++;
                 }
             }

@@ -1,27 +1,27 @@
-import java.util.Random;
+import algorithm.ParallelAlgorithm;
+import algorithm.SearchAlgorithm;
+import algorithm.SequentialAlgorithm;
+import fs.FileProcessor;
+import fs.FileProcessorImpl;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        final int LENGTH = 2000000;
-        int []numbers = new int[LENGTH];
-        Random random = new Random();
+        final String fileName = "C:\\Users\\marki\\IdeaProjects" +
+            "\\Technologies-Of-Distributed-Systems-And-Parallel-Computing\\LW-1\\src\\main\\resources\\numbers.txt";
+        FileProcessor fileProcessor = new FileProcessorImpl(fileName);
+        List<Integer> numbers = fileProcessor.readFromFile();
+        SearchAlgorithm[] algorithms = {new SequentialAlgorithm(numbers), new ParallelAlgorithm(numbers)};
 
-        for(int i = 0; i < LENGTH; i++) {
-            numbers[i] = random.nextInt(5000);
+        for (SearchAlgorithm searchAlgorithm : algorithms) {
+            long start = System.currentTimeMillis();
+            int result = searchAlgorithm.searchTheMostFrequentNumber();
+            long duration = System.currentTimeMillis() - start;
+            System.out.println(searchAlgorithm.getClass()
+                .getSimpleName() + ": result ---> " + result + ", duration ---> " + TimeUnit.MILLISECONDS
+                .toSeconds(duration));
         }
-
-        SearchAlgorithm searchAlgorithm = new SequentialAlgorithm(numbers);
-        long startTimeSequential = System.currentTimeMillis();
-        int resultSequential = searchAlgorithm.searchTheMostFrequentNumber();
-        long spentTimeSequential = System.currentTimeMillis() - startTimeSequential;
-        System.out.println("Sequential algorithm: result ---> " + resultSequential + ", spent time ---> " + TimeUnit.MILLISECONDS.toSeconds(spentTimeSequential) + "s.");
-
-        searchAlgorithm = new ParallelAlgorithm(numbers);
-        long startTimeParallel = System.currentTimeMillis();
-        int resultParallel = searchAlgorithm.searchTheMostFrequentNumber();
-        long spentTimeParallel = System.currentTimeMillis() - startTimeParallel;
-        System.out.println("Parallel algorithm: result ---> " + resultParallel + ", spent time ---> " + TimeUnit.MILLISECONDS.toSeconds(spentTimeParallel) + "s.");
-
     }
 }

@@ -1,5 +1,8 @@
+package algorithm;
+
+import algorithm.SearchAlgorithm;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -7,18 +10,22 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class ParallelAlgorithm implements SearchAlgorithm {
-    private int[] numbers;
+    private List<Integer> numbers;
 
-    public ParallelAlgorithm(int[] numbers) {
+    public ParallelAlgorithm(List<Integer> numbers) {
         this.numbers = numbers;
     }
 
     @Override
     public int searchTheMostFrequentNumber() {
+        if (numbers == null || numbers.size() == 0) {
+            throw new RuntimeException("Cannot execute search! List is empty!");
+        }
+        
         final int COUNT_OF_THREADS = Runtime.getRuntime().availableProcessors();
-        final int length = numbers.length;
+        final int length = numbers.size();
         ExecutorService executorService = Executors.newFixedThreadPool(COUNT_OF_THREADS);
-        int mostFrequent = 0, countMostFrequent = 0;
+        int mostFrequent = numbers.get(0), countMostFrequent = 1;
         List<Integer> alreadyChecked = new ArrayList<>();
 
         int block = length / COUNT_OF_THREADS;
@@ -27,7 +34,7 @@ public class ParallelAlgorithm implements SearchAlgorithm {
         for (int i = 0; i < length; i++) {
             int begin = i;
             int end = endCount;
-            int currentElement = numbers[i];
+            int currentElement = numbers.get(i);
             if (isElementAlreadyChecked(currentElement, alreadyChecked)) {
                 continue;
             }
@@ -78,12 +85,12 @@ public class ParallelAlgorithm implements SearchAlgorithm {
     }
 
     private class SearchTask implements Callable<Integer> {
-        private int[] numbers;
+        private List<Integer> numbers;
         private int currentElement;
         private int begin;
         private int end;
 
-        public SearchTask(int[] numbers, int currentElement, int begin, int end) {
+        public SearchTask(List<Integer> numbers, int currentElement, int begin, int end) {
             this.numbers = numbers;
             this.currentElement = currentElement;
             this.begin = begin;
@@ -94,7 +101,7 @@ public class ParallelAlgorithm implements SearchAlgorithm {
         public Integer call() throws Exception {
             int countCurrent = 0;
             for (int i = begin; i <= end; i++) {
-                if (currentElement == numbers[i]) {
+                if (currentElement == numbers.get(i)) {
                     countCurrent++;
                 }
             }

@@ -1,7 +1,5 @@
 package algorithm;
 
-import algorithm.SearchAlgorithm;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -21,19 +19,17 @@ public class ParallelAlgorithm implements SearchAlgorithm {
         if (numbers == null || numbers.size() == 0) {
             throw new RuntimeException("Cannot execute search! List is empty!");
         }
-        
+
         final int COUNT_OF_THREADS = Runtime.getRuntime().availableProcessors();
         final int length = numbers.size();
         ExecutorService executorService = Executors.newFixedThreadPool(COUNT_OF_THREADS);
         int mostFrequent = numbers.get(0), countMostFrequent = 1;
         List<Integer> alreadyChecked = new ArrayList<>();
 
-        int block = length / COUNT_OF_THREADS;
-        int endCount = block - 1;
-
         for (int i = 0; i < length; i++) {
+            int block = (int) Math.ceil((length - i) / COUNT_OF_THREADS);
             int begin = i;
-            int end = endCount;
+            int end = begin + block - 1;
             int currentElement = numbers.get(i);
             if (isElementAlreadyChecked(currentElement, alreadyChecked)) {
                 continue;
@@ -42,11 +38,11 @@ public class ParallelAlgorithm implements SearchAlgorithm {
             List<Future<Integer>> results = new ArrayList<>();
 
             for (int j = 0; j < COUNT_OF_THREADS; j++) {
-                if(end >= length) {
+                if (end >= length) {
                     end = length - 1;
                 }
                 if(begin >= length) {
-                    begin = length - 1;
+                    break;
                 }
 
                 Future<Integer> result = executorService.submit(new SearchTask(numbers, currentElement, begin, end));
@@ -60,7 +56,6 @@ public class ParallelAlgorithm implements SearchAlgorithm {
                 mostFrequent = currentElement;
                 countMostFrequent = countCurrent;
             }
-            endCount++;
         }
 
         return mostFrequent;

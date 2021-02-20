@@ -21,7 +21,7 @@ public class Main {
             long duration = System.currentTimeMillis() - start;
             System.out.println(searchAlgorithm.getClass()
                 .getSimpleName() + ": result ---> " + result + ", duration ---> " + TimeUnit.MILLISECONDS
-                .toSeconds(duration));
+                .toSeconds(duration) + "s.");
         }
     }
 }

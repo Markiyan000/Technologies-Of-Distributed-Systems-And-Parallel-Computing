@@ -1,11 +1,11 @@
 import algorithm.ParallelAlgorithm;
-import algorithm.SearchAlgorithm;
-import algorithm.SequentialAlgorithm;
-import fs.FileProcessor;
-import fs.FileProcessorImpl;
+    import algorithm.SearchAlgorithm;
+    import algorithm.SequentialAlgorithm;
+    import fs.FileProcessor;
+    import fs.FileProcessorImpl;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+    import java.util.List;
+    import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {

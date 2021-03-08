@@ -1,16 +1,19 @@
 package com.example.lw3.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
 @Table(name = "blacklist")
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = {"user"})
 public class Blacklist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

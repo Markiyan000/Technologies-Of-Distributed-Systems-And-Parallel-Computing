@@ -1,7 +1,6 @@
 package com.example.lw3.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,9 +8,13 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Data
 @Table(name = "order_")
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = {"user", "products"})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

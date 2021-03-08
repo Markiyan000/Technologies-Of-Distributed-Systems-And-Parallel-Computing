@@ -1,7 +1,6 @@
 package com.example.lw3.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,9 +9,14 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Builder
 @Table(name = "user")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(exclude = {"roles", "blacklists", "orders"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

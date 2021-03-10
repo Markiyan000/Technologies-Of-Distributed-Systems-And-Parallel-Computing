@@ -3,6 +3,7 @@ package com.example.lw3.service;
 import com.example.lw3.dto.ProductDto;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -14,4 +15,8 @@ public interface ProductService {
     List<ProductDto> findByName(String name);
 
     List<ProductDto> searchByFilter(String filter);
+
+    List<String> findAllCategories();
+
+    List<ProductDto> findByPrice(BigDecimal from, BigDecimal to);
 }

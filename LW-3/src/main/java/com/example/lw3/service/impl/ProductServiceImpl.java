@@ -9,6 +9,7 @@ import com.example.lw3.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> searchByFilter(String filter) {
         List<Product> products = productRepository.searchByFilter(filter);
+
+        return mapToProductDtoList(products);
+    }
+
+    @Override public List<String> findAllCategories() {
+        return productRepository.findAllCategories();
+    }
+
+    @Override
+    public List<ProductDto> findByPrice(BigDecimal from, BigDecimal to) {
+        List<Product> products = productRepository.findByPrice(from, to);
 
         return mapToProductDtoList(products);
     }

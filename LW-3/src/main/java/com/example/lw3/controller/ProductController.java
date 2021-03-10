@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -38,4 +39,17 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
             .body(productService.searchByFilter(filter));
     }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> findAllCategories() {
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(productService.findAllCategories());
+    }
+
+    @GetMapping("/search-by-price")
+    public ResponseEntity<List<ProductDto>> findByPrice(@RequestParam BigDecimal from, @RequestParam BigDecimal to) {
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(productService.findByPrice(from, to));
+    }
+
 }

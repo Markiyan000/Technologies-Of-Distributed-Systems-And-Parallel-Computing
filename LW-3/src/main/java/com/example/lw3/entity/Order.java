@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@Builder
 @Table(name = "order_")
 @NoArgsConstructor
 @AllArgsConstructor

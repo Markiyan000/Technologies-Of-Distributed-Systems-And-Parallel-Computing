@@ -10,8 +10,10 @@ import com.example.lw3.mapper.UserMapper;
 import com.example.lw3.repository.RoleRepository;
 import com.example.lw3.repository.UserRepository;
 import com.example.lw3.security.JwtProvider;
+import com.example.lw3.security.model.CustomUserDetails;
 import com.example.lw3.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,13 @@ public class UserServiceImpl implements UserService {
         String token = jwtProvider.generateToken(user.getEmail());
 
         return new SignInResponseDto(token);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal instanceof CustomUserDetails ? ((CustomUserDetails)principal).getUsername() : principal.toString();
+        return findByEmail(username);
     }
 
     private void provideSecurity(User user) {

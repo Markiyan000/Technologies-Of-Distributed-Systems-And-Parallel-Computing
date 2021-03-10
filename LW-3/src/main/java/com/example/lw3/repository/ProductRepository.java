@@ -23,4 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.price >= :from and p.price <= :to")
     List<Product> findByPrice(BigDecimal from, BigDecimal to);
+
+    @Query("select p from Product p where p.id in (:ids)")
+    List<Product> findByIds(List<Long> ids);
 }

@@ -15,4 +15,5 @@ public interface UserService {
 
     SignInResponseDto signIn(SignInRequestDto signInRequestDto);
 
+    User getCurrentUser();
 }

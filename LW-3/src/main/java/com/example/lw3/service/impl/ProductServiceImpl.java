@@ -41,6 +41,13 @@ public class ProductServiceImpl implements ProductService {
         return mapToProductDtoList(products);
     }
 
+    @Override
+    public List<ProductDto> searchByFilter(String filter) {
+        List<Product> products = productRepository.searchByFilter(filter);
+
+        return mapToProductDtoList(products);
+    }
+
     private List<ProductDto> mapToProductDtoList(List<Product> products) {
         return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }

@@ -32,4 +32,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
             .body(productService.findByName(name));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> searchByFilter(@RequestParam String filter) {
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(productService.searchByFilter(filter));
+    }
 }

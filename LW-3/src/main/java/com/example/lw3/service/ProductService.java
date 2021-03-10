@@ -12,4 +12,6 @@ public interface ProductService {
     ProductDto findById(Long id);
 
     List<ProductDto> findByName(String name);
+
+    List<ProductDto> searchByFilter(String filter);
 }

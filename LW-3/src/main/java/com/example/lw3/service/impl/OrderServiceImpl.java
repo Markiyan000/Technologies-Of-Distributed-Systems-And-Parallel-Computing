@@ -8,6 +8,7 @@ import com.example.lw3.exception.QuantityExceedsException;
 import com.example.lw3.mapper.OrderMapper;
 import com.example.lw3.repository.OrderRepository;
 import com.example.lw3.repository.ProductRepository;
+import com.example.lw3.service.EmailService;
 import com.example.lw3.service.OrderService;
 import com.example.lw3.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserService userService;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -39,8 +41,11 @@ public class OrderServiceImpl implements OrderService {
 
         Order newOrder = buildOrder(foundProducts, priceOfOrder);
         Order savedOrder = orderRepository.save(newOrder);
+        OrderDto savedOrderDto = OrderMapper.toOrderDto(savedOrder);
 
-        return OrderMapper.toOrderDto(savedOrder);
+        emailService.sendEmail(savedOrderDto);
+
+        return savedOrderDto;
     }
 
     private Order buildOrder(List<Product> products, BigDecimal priceOfOrder) {

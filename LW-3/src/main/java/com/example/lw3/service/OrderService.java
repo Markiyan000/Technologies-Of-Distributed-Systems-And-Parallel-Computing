@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OrderService {
     OrderDto makeOrder(OrderPostDto orderPostDto);
+
+    OrderDto payOrder(Long id);
 }

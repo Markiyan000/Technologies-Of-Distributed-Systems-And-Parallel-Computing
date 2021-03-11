@@ -13,6 +13,7 @@ public class OrderMapper {
             .id(order.getId())
             .creationDate(order.getCreationDate())
             .price(order.getPrice())
+            .isPaid(order.getIsPaid())
             .userDto(UserMapper.toUserDto(order.getUser()))
             .productDtoS(order.getProducts().stream().map(ProductMapper::toProductDto).collect(Collectors.toSet()))
             .build();

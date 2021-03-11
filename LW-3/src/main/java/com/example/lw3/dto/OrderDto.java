@@ -13,6 +13,7 @@ public class OrderDto {
     private Long id;
     private LocalDateTime creationDate;
     private BigDecimal price;
+    private Boolean isPaid;
     private UserDto userDto;
     private Set<ProductDto> productDtoS;
 }

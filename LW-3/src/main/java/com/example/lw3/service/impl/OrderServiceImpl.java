@@ -4,6 +4,7 @@ import com.example.lw3.dto.OrderDto;
 import com.example.lw3.dto.OrderPostDto;
 import com.example.lw3.entity.Order;
 import com.example.lw3.entity.Product;
+import com.example.lw3.exception.OrderNotFoundException;
 import com.example.lw3.exception.QuantityExceedsException;
 import com.example.lw3.mapper.OrderMapper;
 import com.example.lw3.repository.OrderRepository;
@@ -48,10 +49,20 @@ public class OrderServiceImpl implements OrderService {
         return savedOrderDto;
     }
 
+    @Override
+    @Transactional
+    public OrderDto payOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND + id));
+        order.setIsPaid(true);
+
+        return OrderMapper.toOrderDto(order);
+    }
+
     private Order buildOrder(List<Product> products, BigDecimal priceOfOrder) {
         return Order.builder()
             .creationDate(LocalDateTime.now())
             .price(priceOfOrder)
+            .isPaid(false)
             .user(userService.getCurrentUser())
             .products(new HashSet<>(products))
             .build();

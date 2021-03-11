@@ -6,10 +6,7 @@ import com.example.lw3.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -18,8 +15,14 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDto>makeOrder(@RequestBody OrderPostDto orderPostDto) {
+    public ResponseEntity<OrderDto> makeOrder(@RequestBody OrderPostDto orderPostDto) {
         return ResponseEntity.status(HttpStatus.OK)
             .body(orderService.makeOrder(orderPostDto));
+    }
+
+    @GetMapping("/{id}/pay")
+    public ResponseEntity<OrderDto> payOrder(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(orderService.payOrder(id));
     }
 }

@@ -27,6 +27,9 @@ public class Order {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "is_paid")
+    private Boolean isPaid;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

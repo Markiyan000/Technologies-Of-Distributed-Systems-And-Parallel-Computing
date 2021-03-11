@@ -2,9 +2,9 @@ package com.example.lw3.dto;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.HashMap;
 
 @Data
 public class OrderPostDto {
-    private List<Long> ids;
+    private HashMap<Long, Integer> ids;
 }

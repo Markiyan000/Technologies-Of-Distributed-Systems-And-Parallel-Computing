@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @Table(name = "blacklist")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class Blacklist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "creation_time")
-    private LocalDateTime creationTime;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
     @Column(name = "debt")
     private BigDecimal debt;

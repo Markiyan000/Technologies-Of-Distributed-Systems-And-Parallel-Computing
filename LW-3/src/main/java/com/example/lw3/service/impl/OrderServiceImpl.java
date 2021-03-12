@@ -4,11 +4,14 @@ import com.example.lw3.dto.OrderDto;
 import com.example.lw3.dto.OrderPostDto;
 import com.example.lw3.entity.Order;
 import com.example.lw3.entity.Product;
+import com.example.lw3.entity.User;
+import com.example.lw3.exception.OrderCreationException;
 import com.example.lw3.exception.OrderNotFoundException;
 import com.example.lw3.exception.QuantityExceedsException;
 import com.example.lw3.mapper.OrderMapper;
 import com.example.lw3.repository.OrderRepository;
 import com.example.lw3.repository.ProductRepository;
+import com.example.lw3.service.BlacklistService;
 import com.example.lw3.service.EmailService;
 import com.example.lw3.service.OrderService;
 import com.example.lw3.service.UserService;
@@ -31,16 +34,22 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final UserService userService;
     private final EmailService emailService;
+    private final BlacklistService blacklistService;
 
     @Override
     @Transactional
     public OrderDto makeOrder(OrderPostDto orderPostDto) {
+        User currentUser = userService.getCurrentUser();
+        if (blacklistService.isUserInBlacklist(currentUser)) {
+            throw new OrderCreationException(USER_IN_BLACKLIST);
+        }
+
         List<Long> ids = new ArrayList<>(orderPostDto.getIds().keySet());
         List<Integer> quantities = new ArrayList<>(orderPostDto.getIds().values());
         List<Product> foundProducts = productRepository.findByIds(ids);
         BigDecimal priceOfOrder = getPriceOfOrderAndDecreaseQuantity(foundProducts, quantities);
 
-        Order newOrder = buildOrder(foundProducts, priceOfOrder);
+        Order newOrder = buildOrder(foundProducts, priceOfOrder, currentUser);
         Order savedOrder = orderRepository.save(newOrder);
         OrderDto savedOrderDto = OrderMapper.toOrderDto(savedOrder);
 
@@ -58,12 +67,12 @@ public class OrderServiceImpl implements OrderService {
         return OrderMapper.toOrderDto(order);
     }
 
-    private Order buildOrder(List<Product> products, BigDecimal priceOfOrder) {
+    private Order buildOrder(List<Product> products, BigDecimal priceOfOrder, User currentUser) {
         return Order.builder()
             .creationDate(LocalDateTime.now())
             .price(priceOfOrder)
             .isPaid(false)
-            .user(userService.getCurrentUser())
+            .user(currentUser)
             .products(new HashSet<>(products))
             .build();
     }

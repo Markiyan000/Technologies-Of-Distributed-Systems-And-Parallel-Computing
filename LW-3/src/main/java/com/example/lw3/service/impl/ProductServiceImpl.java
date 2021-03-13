@@ -1,6 +1,7 @@
 package com.example.lw3.service.impl;
 
 import com.example.lw3.dto.ProductDto;
+import com.example.lw3.dto.ProductPostDto;
 import com.example.lw3.entity.Product;
 import com.example.lw3.exception.ProductNotFoundException;
 import com.example.lw3.mapper.ProductMapper;
@@ -8,6 +9,7 @@ import com.example.lw3.repository.ProductRepository;
 import com.example.lw3.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -49,7 +51,8 @@ public class ProductServiceImpl implements ProductService {
         return mapToProductDtoList(products);
     }
 
-    @Override public List<String> findAllCategories() {
+    @Override
+    public List<String> findAllCategories() {
         return productRepository.findAllCategories();
     }
 
@@ -60,7 +63,41 @@ public class ProductServiceImpl implements ProductService {
         return mapToProductDtoList(products);
     }
 
+    @Override
+    @Transactional
+    public ProductDto save(ProductPostDto productPostDto) {
+        Product newProduct = ProductMapper.toProduct(productPostDto);
+        Product savedProduct = productRepository.save(newProduct);
+
+        return ProductMapper.toProductDto(savedProduct);
+    }
+
+    @Override
+    @Transactional
+    public ProductDto update(Long id, ProductPostDto productPostDto) {
+        Product toUpdateProduct = productRepository.findById(id)
+            .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
+        updateProduct(toUpdateProduct, productPostDto);
+        Product updatedProduct = productRepository.save(toUpdateProduct);
+
+        return ProductMapper.toProductDto(updatedProduct);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
+
     private List<ProductDto> mapToProductDtoList(List<Product> products) {
         return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
+    }
+
+    private void updateProduct(Product oldProduct, ProductPostDto newProduct) {
+        oldProduct.setName(newProduct.getName());
+        oldProduct.setType(newProduct.getType());
+        oldProduct.setPrice(newProduct.getPrice());
+        oldProduct.setQuantity(newProduct.getQuantity());
+        oldProduct.setCountry(newProduct.getCountry());
     }
 }

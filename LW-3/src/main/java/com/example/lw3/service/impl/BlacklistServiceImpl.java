@@ -8,7 +8,6 @@ import com.example.lw3.exception.UserNotFoundException;
 import com.example.lw3.mapper.BlacklistMapper;
 import com.example.lw3.repository.BlacklistRepository;
 import com.example.lw3.repository.CustomOrderRepository;
-import com.example.lw3.repository.OrderRepository;
 import com.example.lw3.repository.UserRepository;
 import com.example.lw3.service.BlacklistService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.lw3.messages.Messages.*;
 
@@ -26,7 +27,6 @@ import static com.example.lw3.messages.Messages.*;
 public class BlacklistServiceImpl implements BlacklistService {
     private final BlacklistRepository blacklistRepository;
     private final UserRepository userRepository;
-    private final OrderRepository orderRepository;
     private final CustomOrderRepository customOrderRepository;
 
     @Override
@@ -43,6 +43,13 @@ public class BlacklistServiceImpl implements BlacklistService {
         Blacklist savedBlacklist = blacklistRepository.save(blacklist);
 
         return BlacklistMapper.toBlacklistDto(savedBlacklist);
+    }
+
+    @Override
+    public List<BlacklistDto> findAll() {
+        List<Blacklist> blacklists = blacklistRepository.findAll();
+
+        return blacklists.stream().map(BlacklistMapper::toBlacklistDto).collect(Collectors.toList());
     }
 
     @Override

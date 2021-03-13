@@ -1,4 +1,4 @@
-package com.example.lw3.controller;
+package com.example.lw3.management;
 
 import com.example.lw3.dto.BlacklistDto;
 import com.example.lw3.service.BlacklistService;

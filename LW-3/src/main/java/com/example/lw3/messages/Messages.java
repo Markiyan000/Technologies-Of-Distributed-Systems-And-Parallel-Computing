@@ -7,4 +7,5 @@ public class Messages {
     public static final String USER_NOT_FOUND = "User not found with id ---> ";
     public static final String USER_DOES_NOT_HAVE_DEBT = "User with id %d doesn't have debt!";
     public static final String USER_IN_BLACKLIST = "Current user cannot make order because he is in blacklist!";
+    public static final String USER_ENTERED_BAD_PASSWORD = "%s entered bad password!";
 }

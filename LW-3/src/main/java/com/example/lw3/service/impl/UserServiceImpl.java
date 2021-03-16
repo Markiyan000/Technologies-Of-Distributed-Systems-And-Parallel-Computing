@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void provideSecurity(User user) {
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_USER");
         user.getRoles().add(role);
         role.getUsers().add(user);
 

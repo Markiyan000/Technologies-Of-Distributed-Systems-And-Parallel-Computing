@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({OrderNotFoundException.class, ProductNotFoundException.class, UserNotFoundException.class})
-    public ResponseEntity<CustomErrorResponse> handleNotFound(Exception exception, WebRequest webRequest) {
+    public ResponseEntity<CustomErrorResponse> handleNotFound(Exception exception) {
         CustomErrorResponse customErrorResponse = CustomErrorResponse.builder()
             .timestamp(LocalDateTime.now())
             .error(exception.getMessage())
@@ -23,8 +23,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(customErrorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BlacklistCreationException.class, OrderCreationException.class, QuantityExceedsException.class})
-    public ResponseEntity<CustomErrorResponse> handleBadRequest(Exception exception, WebRequest webRequest) {
+    @ExceptionHandler({BlacklistCreationException.class, OrderCreationException.class, QuantityExceedsException.class, BadPasswordException.class})
+    public ResponseEntity<CustomErrorResponse> handleBadRequest(Exception exception) {
         CustomErrorResponse customErrorResponse = CustomErrorResponse.builder()
             .timestamp(LocalDateTime.now())
             .error(exception.getMessage())

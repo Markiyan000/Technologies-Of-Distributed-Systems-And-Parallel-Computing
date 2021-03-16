@@ -11,4 +11,6 @@ public interface BlacklistService {
     List<BlacklistDto> findAll();
 
     boolean isUserInBlacklist(User user);
+
+    void deleteByUserId(Long userId);
 }

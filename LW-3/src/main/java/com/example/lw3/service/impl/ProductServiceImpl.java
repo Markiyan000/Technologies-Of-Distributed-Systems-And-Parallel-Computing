@@ -83,12 +83,6 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toProductDto(updatedProduct);
     }
 
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        productRepository.deleteById(id);
-    }
-
     private List<ProductDto> mapToProductDtoList(List<Product> products) {
         return products.stream().map(ProductMapper::toProductDto).collect(Collectors.toList());
     }

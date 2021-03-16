@@ -26,4 +26,10 @@ public class BlacklistController {
         return ResponseEntity.status(HttpStatus.OK)
             .body(blacklistService.findAll());
     }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByUserId(@RequestParam Long userId) {
+        blacklistService.deleteByUserId(userId);
+    }
 }

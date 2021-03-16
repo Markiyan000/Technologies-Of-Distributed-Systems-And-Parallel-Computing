@@ -22,6 +22,4 @@ public interface ProductService {
     ProductDto save(ProductPostDto productPostDto);
 
     ProductDto update(Long id, ProductPostDto productPostDto);
-
-    void delete(Long id);
 }

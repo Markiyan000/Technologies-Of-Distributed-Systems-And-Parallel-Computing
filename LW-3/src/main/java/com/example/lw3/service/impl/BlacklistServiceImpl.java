@@ -57,6 +57,14 @@ public class BlacklistServiceImpl implements BlacklistService {
         return !blacklistRepository.findByUser(user).isEmpty();
     }
 
+    @Override
+    @Transactional
+    public void deleteByUserId(Long userId) {
+        User foundUser = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + userId));
+        blacklistRepository.deleteByUser(foundUser);
+    }
+
     private Blacklist buildBlacklistItem(User user, BigDecimal userDebt) {
         return Blacklist.builder()
             .creationDate(LocalDateTime.now())

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface BlacklistRepository extends JpaRepository<Blacklist, Long> {
     List<Blacklist> findByUser(User user);
+
+    void deleteByUser(User user);
 }

@@ -1,12 +1,12 @@
 package com.example.lw3.management;
 
-import com.example.lw3.dto.ProductDto;
-import com.example.lw3.dto.ProductPostDto;
-import com.example.lw3.service.ProductService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+    import com.example.lw3.dto.ProductDto;
+    import com.example.lw3.dto.ProductPostDto;
+    import com.example.lw3.service.ProductService;
+    import lombok.RequiredArgsConstructor;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/management/products")

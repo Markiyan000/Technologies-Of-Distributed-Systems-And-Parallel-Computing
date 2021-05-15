@@ -10,12 +10,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>LW-1</module>
-        <module>LW-4</module>
-        <module>LW-4</module>
-        <module>LW-4</module>
-        <module>LW-4</module>
-        <module>LW-4</module>
     </modules>
-
 
 </project>

@@ -7,6 +7,7 @@ import com.derevetskyi.markiyan.ordermicroservice.vo.ProductVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -30,11 +31,13 @@ public class OrderServiceImpl implements OrderService {
             .creationDate(LocalDateTime.now())
             .price(productVO.getPrice())
             .userId(userId)
+            .isPaid(false)
             .build();
         orderRepository.save(order);
     }
 
     @Override
+    @Transactional
     public void payOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new RuntimeException("Cannot find order with id ---> " + orderId));

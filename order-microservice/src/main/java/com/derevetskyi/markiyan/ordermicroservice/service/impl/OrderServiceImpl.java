@@ -22,9 +22,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void makeOrder(Long productId, Long userId) {
+        boolean isUserInBlacklist = restTemplate
+            .getForObject("http://BLACKLIST-MICROSERVICE/blacklist/check?userId=" + userId, Boolean.class);
+        if(isUserInBlacklist) {
+            throw new RuntimeException("User in blacklist with id ---> " + userId);
+        }
         ProductVO productVO = restTemplate
             .getForObject("http://PRODUCT-MICROSERVICE/products/" + productId, ProductVO.class);
-        if( productVO == null) {
+        if (productVO == null) {
             throw new RuntimeException("Cannot find product with id ---> " + productId);
         }
         Order order = Order.builder()
